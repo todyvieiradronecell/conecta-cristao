@@ -77,7 +77,7 @@ window.addEventListener("message", (event)=>{
       }catch(e){}
       return originalFetch.apply(this, args);
     };
-  }catch(e){ console.warn("[QuantumHook] erro fetch",e); }
+  }catch(e){ console.warn("[LovablePageHook] erro fetch",e); }
 })();
 
 (function wrapXHR(){
@@ -95,7 +95,7 @@ window.addEventListener("message", (event)=>{
       }
       return origSetHeader.apply(this,arguments);
     };
-  }catch(e){ console.warn("[QuantumHook] erro xhr",e); }
+  }catch(e){ console.warn("[LovablePageHook] erro xhr",e); }
 })();
 
 // Fix sync: ao abrir qualquer projeto no lovable.dev, lê o token direto do
