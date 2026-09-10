@@ -1,4 +1,4 @@
-// Super Lovable — vigia de retomada autônoma orientada pelo estado persistido.
+// Super Lovable — vigia de retomada autônoma orientada pelo estado persistido..
 // A política e os checkpoints pertencem ao github-agent-panel. Este arquivo apenas
 // acorda o orquestrador após recarga/recriação do painel; não procura nem clica botões.
 (() => {
