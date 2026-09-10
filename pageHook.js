@@ -2,7 +2,6 @@
 
 
 let capturedToken = null; let capturedProjectId = null;
-let capturedProjectId = null;
 
 function getProjectFromPage(){
   try{
