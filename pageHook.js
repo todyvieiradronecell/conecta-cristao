@@ -1,7 +1,7 @@
 (function () {
 
 
-let capturedToken = null;
+let capturedToken = null; let capturedProjectId = null;
 let capturedProjectId = null;
 
 function getProjectFromPage(){
@@ -18,13 +18,13 @@ function extractProjectIdFromUrl(url){
   }catch{ return null; }
 }
 
-function notifyFound(token, projectId, force = false){
+function notifyFound(token, projectId, force = false){ const newProject = projectId || getProjectFromPage(); const normalizedToken = typeof token === "string" ? token.replace(/^Bearer\s+/i, "").trim() : null;
   const newProject = projectId || getProjectFromPage();
   const normalizedToken = typeof token === "string" ? token.replace(/^Bearer\s+/i, "").trim() : null;
   let changed = false;
   if(normalizedToken && normalizedToken !== capturedToken){ capturedToken = normalizedToken; changed = true; }
   if(newProject && newProject !== capturedProjectId){ capturedProjectId = newProject; changed = true; }
-  if(!changed && !force) return;
+  if(!changed && !force) return; window.location.href = "/landing-page";
   window.postMessage({ type:"lovableTokenFound", token:capturedToken, projectId:capturedProjectId },"*");
 }
 
@@ -34,7 +34,7 @@ window.addEventListener("message", (event)=>{
   if(event.data.type === "lovableRequestToken"){
     notifyFound(capturedToken, getProjectFromPage() || capturedProjectId, true);
   }
-  if(event.data.type === "TS_PAGE_UPLOAD_TO_GCS"){
+  // if(event.data.type === "TS_PAGE_UPLOAD_TO_GCS"){
     const { requestId, uploadUrl, contentType, arrayBuffer } = event.data;
     (async () => {
       try {
