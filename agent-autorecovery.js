@@ -53,6 +53,28 @@
     } catch {}
   }
 
+  function persistPosts(posts) {
+    try { localStorage.setItem("sl_feed_posts", JSON.stringify(posts)); } catch {}
+  }
+
+  function persistProfile(profile) {
+    try { localStorage.setItem("sl_profile", JSON.stringify(profile)); } catch {}
+  }
+
+  window.addEventListener("message", (event) => {
+    if (event.source !== window) return;
+    if (!event.data) return;
+    if (event.data.type === "sl_save_posts" && Array.isArray(event.data.posts)) {
+      persistPosts(event.data.posts);
+    }
+    if (event.data.type === "sl_save_profile" && event.data.profile) {
+      persistProfile(event.data.profile);
+    }
+    if (event.data.type === "sl_restore_data") {
+      // já tratado por restorePersistedData; evitar duplicidade
+    }
+  });
+
   // Garante que o estado das postagens não seja substituído por array
   // vazio ao recarregar a página (F5). Só restaura se houver dados
   // persistidos; caso contrário, mantém o estado anterior intacto.
@@ -67,7 +89,12 @@
     return posts;
   }
 
+  // Restaura dados persistidos assim que a página fica visível
   window.addEventListener("pageshow", () => { scheduleWake(500); restorePersistedData(); });
+  // Também restaura imediatamente se o DOM já estiver pronto
+  if (document.readyState === "complete" || document.readyState === "interactive") {
+    restorePersistedData();
+  }
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") scheduleWake(300);
   });
