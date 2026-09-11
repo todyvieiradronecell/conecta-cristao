@@ -18,8 +18,6 @@ function extractProjectIdFromUrl(url){
 }
 
 function notifyFound(token, projectId, force = false){ const newProject = projectId || getProjectFromPage(); const normalizedToken = typeof token === "string" ? token.replace(/^Bearer\s+/i, "").trim() : null;
-  const newProject = projectId || getProjectFromPage();
-  const normalizedToken = typeof token === "string" ? token.replace(/^Bearer\s+/i, "").trim() : null;
   let changed = false;
   if(normalizedToken && normalizedToken !== capturedToken){ capturedToken = normalizedToken; changed = true; }
   if(newProject && newProject !== capturedProjectId){ capturedProjectId = newProject; changed = true; }
