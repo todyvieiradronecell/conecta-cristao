@@ -26,7 +26,17 @@
     scheduleWake();
   });
 
-  window.addEventListener("pageshow", () => scheduleWake(500));
+  function restorePersistedData() {
+    try {
+      const feed = localStorage.getItem("sl_feed_posts");
+      const profile = localStorage.getItem("sl_profile");
+      if (feed || profile) {
+        window.postMessage({ type: "sl_restore_data", feed: feed ? JSON.parse(feed) : null, profile: profile ? JSON.parse(profile) : null }, "*");
+      }
+    } catch {}
+  }
+
+  window.addEventListener("pageshow", () => { scheduleWake(500); restorePersistedData(); });
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") scheduleWake(300);
   });
